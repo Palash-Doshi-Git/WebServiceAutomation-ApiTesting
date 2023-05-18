@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="GetEndPoints\TestGetEndPoints.cs" />
     <Compile Include="Helper\Request\HttpClientHelper.cs" />
+    <Compile Include="Helper\Response Data\ResponseDataHelper.cs" />
     <Compile Include="Model\JsonModel\Features.cs" />
     <Compile Include="Model\JsonModel\JsonRootObject.cs" />
     <Compile Include="Model\RestResponse.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="Model\XmlModel\Laptop.cs" />
     <Compile Include="Model\XmlModel\LaptopDetails.cs" />
     <Compile Include="PostEndPoints\TestPostEndPoints.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

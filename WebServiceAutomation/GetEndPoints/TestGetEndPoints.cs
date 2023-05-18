@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using WebServiceAutomation.Helper.Request;
+using WebServiceAutomation.Helper.Response_Data;
 using WebServiceAutomation.Model;
 using WebServiceAutomation.Model.JsonModel;
 using WebServiceAutomation.Model.XmlModel;
@@ -317,16 +318,14 @@ namespace WebServiceAutomation.GetEndPoints
 
 
         [TestMethod]
-        public void GetUsingHelperMethod()
+        public void TestGetEndPointUsingHelperClass()
         {
             Dictionary<string, string> httpHeader = new Dictionary<string, string>();
             httpHeader.Add("Accept", "application/json");
 
             RestResponse restResponse = HttpClientHelper.GetRequest(getUrl, httpHeader);
-
-            List<JsonRootObject> jsonRootObject = JsonConvert.DeserializeObject<List<JsonRootObject>>(restResponse.ResponseContent);
-
-            Console.WriteLine(jsonRootObject[0].Id);
+            List<JsonRootObject> jsonData = ResponseDataHelper.DeserializeJSonResponse<List<JsonRootObject>>(restResponse.ResponseContent);
+            Console.WriteLine(jsonData.ToString());
 
         }
 

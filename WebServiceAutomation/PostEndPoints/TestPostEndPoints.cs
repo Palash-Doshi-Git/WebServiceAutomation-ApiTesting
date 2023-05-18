@@ -9,6 +9,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using WebServiceAutomation.Helper.Request;
+using WebServiceAutomation.Helper.Response_Data;
 using WebServiceAutomation.Model;
 using WebServiceAutomation.Model.JsonModel;
 using WebServiceAutomation.Model.XmlModel;
@@ -160,8 +162,7 @@ namespace WebServiceAutomation.PostEndPoints
                     restResponse = new RestResponse((int)responseMessage.Result.StatusCode, responseMessage.Result.Content.ReadAsStringAsync().Result);
                     Assert.AreEqual(200, restResponse.StatusCode);
 
-
-
+                 
                 }
             }
         }
@@ -171,7 +172,7 @@ namespace WebServiceAutomation.PostEndPoints
         public void TestPostEndPointWithSendAsyncXml()
         {
             int id = random.Next(100);
-            string xmlData = "<Laptop>" +
+            string xmlDatastring = "<Laptop>" +
                                     "<BrandName>Alienware</BrandName>" +
                                     "<Features>" +
                                        "<Feature>8th Generation Intel® Core™ i5 - 8300H</Feature>" +
@@ -191,7 +192,7 @@ namespace WebServiceAutomation.PostEndPoints
                 {
                     requestMessage.Method = HttpMethod.Post;
                     requestMessage.RequestUri = new Uri(postUrl);
-                    requestMessage.Content = new StringContent(xmlData, Encoding.UTF8, xmlMediaType);
+                    requestMessage.Content = new StringContent(xmlDatastring, Encoding.UTF8, xmlMediaType);
 
 
 
@@ -199,12 +200,45 @@ namespace WebServiceAutomation.PostEndPoints
 
                     restResponse = new RestResponse((int)responseMessage.Result.StatusCode, responseMessage.Result.Content.ReadAsStringAsync().Result);
                     Assert.AreEqual(200, restResponse.StatusCode);
+                    Laptop xmlData = ResponseDataHelper.DeserializeXmlResponse<Laptop>(restResponse.ResponseContent);
+                    Console.WriteLine(xmlData.ToString());
 
                 }
             }
         }
 
 
-    
+        [TestMethod]
+        public void TestPostEndPointsUsingHelperClass()
+        {
+            int id = random.Next(100);
+            string jsonDatastring = "{" +
+                                    "\"BrandName\": \"Alienware\"," +
+                                    "\"Features\": {" +
+                                    "\"Feature\": [" +
+                                    "\"8th Generation Intel® Core™ i5-8300H\"," +
+                                    "\"Windows 10 Home 64-bit English\"," +
+                                    "\"NVIDIA® GeForce® GTX 1660 Ti 6GB GDDR6\"," +
+                                    "\"8GB, 2x4GB, DDR4, 2666MHz\"" +
+                                    "]" +
+                                    "}," +
+                                    "\"Id\": " + id + ", " +
+                                    "\"LaptopName\": \"Alienware M17\"" +
+                                "}";
+
+            Dictionary<string, string> headers = new Dictionary<string, string>()
+            {
+                {"Accept",jsonMediaType }
+            };
+            //restResponse = HttpClientHelper.PostRequest(postUrl, jsonData, jsonMediaType, headers);
+          
+            HttpContent content = new StringContent(jsonDatastring, Encoding.UTF8, jsonMediaType);
+            restResponse = HttpClientHelper.PostRequest(postUrl, content, headers);
+
+            Assert.AreEqual(200, restResponse.StatusCode);
+
+            List<JsonRootObject> jsonData = ResponseDataHelper.DeserializeJSonResponse<List<JsonRootObject>>(restResponse.ResponseContent);
+            Console.WriteLine(jsonDatastring.ToString());
+        }
     }
 }

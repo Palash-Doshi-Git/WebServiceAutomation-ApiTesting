@@ -56,6 +56,18 @@ namespace WebServiceAutomation.Helper.Request
         {
             return SendRequest(requestUrl, HttpMethod.Get, null, httpHeaders);
         }
+
+        public static RestResponse PostRequest(string requestUrl, HttpContent content, Dictionary<string, string> httpHeaders)
+        {
+            return SendRequest(requestUrl, HttpMethod.Post, content, httpHeaders);
+        }
+
+        public static RestResponse PostRequest(string requestUrl, string data,string mediatype, Dictionary<string, string> httpHeaders) 
+        {
+            HttpContent httpContent = new StringContent(data, Encoding.UTF8, mediatype);
+                return PostRequest(requestUrl, httpContent, httpHeaders);
+
+        }
     }
 }
 
