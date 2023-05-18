@@ -68,6 +68,7 @@
     <Compile Include="Model\XmlModel\LaptopDetails.cs" />
     <Compile Include="PostEndPoints\TestPostEndPoints.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PutEndPoints\TestPutEndPoints.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
