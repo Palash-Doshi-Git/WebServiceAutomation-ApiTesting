@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using WebServiceAutomation.Authentication;
 using WebServiceAutomation.Helper.Request;
 using WebServiceAutomation.Helper.Response_Data;
 using WebServiceAutomation.Model;
@@ -20,8 +21,8 @@ namespace WebServiceAutomation.DeleteEndPoints
     {
 
         private readonly string postUrl = "http://localhost:8080/laptop-bag/webapi/api/add";
-        private readonly string getUrl = "http://localhost:8080/laptop-bag/webapi/api/find/";
         private readonly string deleteUrl = "http://localhost:8080/laptop-bag/webapi/api/delete/";
+        private readonly string secureDeleteUrl = "http://localhost:8080/laptop-bag/webapi/secure/delete/";
         private RestResponse restResponse;
         private string jsonMediaType = "application/json";
         private string xmlMediaType = "application/xml";
@@ -34,14 +35,43 @@ namespace WebServiceAutomation.DeleteEndPoints
         public void TestDeleteEndPointforJsonUsingHelperMethod()
         {
             int id = random.Next(100);
-            AddRecord(id);
-            restResponse = HttpClientHelper.DeleteRequest(deleteUrl, id);
+            AddJsonRecord(id);
+            restResponse = HttpClientHelper.DeleteRequest(deleteUrl + id);
             Assert.AreEqual(200, restResponse.StatusCode);
-            restResponse = HttpClientHelper.DeleteRequest(deleteUrl, id);
+            restResponse = HttpClientHelper.DeleteRequest(deleteUrl + id);
             Assert.AreEqual(404, restResponse.StatusCode);
         }
 
-        public void AddRecord(int id)
+        [TestMethod]
+        public void TestSecureDeleteEndPointforJson()
+        {
+            int id = random.Next(100);
+            AddJsonRecord(id);
+            string auth = Base64StringConvertor.GetBase64String("admin", "welcome");
+            
+            jsonHeader.Remove("Accept");            
+            jsonHeader.Add("Authorization", "Basic " + auth);
+            restResponse = HttpClientHelper.DeleteRequest(secureDeleteUrl + id, jsonHeader);
+            Assert.AreEqual(200, restResponse.StatusCode);
+            restResponse = HttpClientHelper.DeleteRequest(secureDeleteUrl + id, jsonHeader);
+            Assert.AreEqual(404, restResponse.StatusCode);
+        }
+
+        [TestMethod]
+        public void TestSecureDeleteEndPointwithXml()
+        {
+            int id = random.Next(100);
+            AddXmlRecord(id);
+            string auth = Base64StringConvertor.GetBase64String("admin" , "welcome");
+            xmlHeader.Remove("Accept");
+            xmlHeader.Add("Authorization", "Basic " + auth);
+            restResponse = HttpClientHelper.DeleteRequest(secureDeleteUrl+id, xmlHeader) ;
+            Assert.AreEqual(200, restResponse.StatusCode);
+            restResponse = HttpClientHelper.DeleteRequest(secureDeleteUrl+id, xmlHeader);
+            Assert.AreEqual(404, restResponse.StatusCode);
+        }
+
+        public void AddJsonRecord(int id)
         {
             string jsonData = "{" +
                                    "\"BrandName\": \"Alienware\"," +
@@ -59,7 +89,24 @@ namespace WebServiceAutomation.DeleteEndPoints
 
             restResponse = HttpClientHelper.PostRequest(postUrl, jsonData, jsonMediaType,jsonHeader);
             Assert.AreEqual(200, restResponse.StatusCode);
-            JsonRootObject json = JsonConvert.DeserializeObject<JsonRootObject>(restResponse.ResponseContent);
+      
+        }
+
+        public void AddXmlRecord(int id)
+        {
+            string xmlData = "<Laptop>" +
+                                   "<BrandName>Alienware</BrandName>" +
+                                   "<Features>" +
+                                      "<Feature>8th Generation Intel® Core™ i5 - 8300H</Feature>" +
+                                      "<Feature>Windows 10 Home 64 - bit English</Feature>" +
+                                      "<Feature>NVIDIA® GeForce® GTX 1660 Ti 6GB GDDR6</Feature>" +
+                                      "<Feature>8GB, 2x4GB, DDR4, 2666MHz</Feature>" +
+                                    "</Features>" +
+                                 "<Id>" + id + "</Id>" +
+                                 "<LaptopName>Alienware M17</LaptopName>" +
+                              "</Laptop>";
+            restResponse = HttpClientHelper.PostRequest(postUrl, xmlData, xmlMediaType, xmlHeader);
+            Assert.AreEqual(200, restResponse.StatusCode);
         }
 
     }

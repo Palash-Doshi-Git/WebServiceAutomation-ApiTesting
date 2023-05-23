@@ -191,7 +191,7 @@ namespace WebServiceAutomation.GetEndPoints
         }
 
         [TestMethod]
-        public void TestUsingStatement()
+        public void TestGetUsingStatement()
         {
             using (HttpClient httpClient = new HttpClient())
             {
@@ -322,7 +322,7 @@ namespace WebServiceAutomation.GetEndPoints
 
 
         [TestMethod]
-        public void TestGetEndPointUsingHelperClass()
+        public void TestGetEndPointUsingHelperMethod()
         {
             Dictionary<string, string> httpHeader = new Dictionary<string, string>();
             httpHeader.Add("Accept", "application/json");

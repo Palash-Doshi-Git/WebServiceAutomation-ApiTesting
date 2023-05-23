@@ -34,6 +34,7 @@ namespace WebServiceAutomation.Helper.Request
 
         private static RestResponse SendRequest( string requestUrl, HttpMethod method, HttpContent content, Dictionary<string, string> httpHeader)
         {
+            
             httpClient = AddHeadersCreateClient(httpHeader);
 
             httpRequestMessage = CreateRequestMessage(requestUrl, method, content);
@@ -79,9 +80,15 @@ namespace WebServiceAutomation.Helper.Request
             return SendRequest(requestUrl, HttpMethod.Put, content, httpHeaders);
         }
 
-        public static RestResponse DeleteRequest(string requestUrl, int id)
+        public static RestResponse DeleteRequest(string requestUrl)
         {
-            return SendRequest(requestUrl+id , HttpMethod.Delete,null,null);
+            return SendRequest(requestUrl , HttpMethod.Delete,null,null);
+
+        }
+
+        public static RestResponse DeleteRequest(string requestUrl, Dictionary<string, string> httpHeaders)
+        {
+            return SendRequest(requestUrl, HttpMethod.Delete, null, httpHeaders);
 
         }
 

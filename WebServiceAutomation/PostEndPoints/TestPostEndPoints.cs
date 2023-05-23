@@ -212,7 +212,7 @@ namespace WebServiceAutomation.PostEndPoints
 
 
         [TestMethod]
-        public void TestPostEndPointsUsingHelperClass()
+        public void TestPostEndPointsUsingHelperMethod()
         {
             int id = random.Next(100);
             string jsonDatastring = "{" +
