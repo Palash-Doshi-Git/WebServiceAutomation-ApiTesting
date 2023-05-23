@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using WebServiceAutomation.Authentication;
 using WebServiceAutomation.Helper.Request;
 using WebServiceAutomation.Helper.Response_Data;
 using WebServiceAutomation.Model;
@@ -22,6 +23,9 @@ namespace WebServiceAutomation.PostEndPoints
     {
         private readonly string postUrl = "http://localhost:8080/laptop-bag/webapi/api/add";
         private readonly string getUrl = "http://localhost:8080/laptop-bag/webapi/api/find/";
+        private readonly string secureGetUrl = "http://localhost:8080/laptop-bag/webapi/secure/find/";
+        private readonly string securePostUrl = "http://localhost:8080/laptop-bag/webapi/secure/add";
+
         private RestResponse restResponse;
         private RestResponse getrestResponse;
         private string jsonMediaType = "application/json";
@@ -161,7 +165,7 @@ namespace WebServiceAutomation.PostEndPoints
                     restResponse = new RestResponse((int)responseMessage.Result.StatusCode, responseMessage.Result.Content.ReadAsStringAsync().Result);
                     Assert.AreEqual(200, restResponse.StatusCode);
 
-                 
+
                 }
             }
         }
@@ -230,7 +234,7 @@ namespace WebServiceAutomation.PostEndPoints
                 {"Accept",jsonMediaType }
             };
             //restResponse = HttpClientHelper.PostRequest(postUrl, jsonData, jsonMediaType, headers);
-          
+
             HttpContent content = new StringContent(jsonDatastring, Encoding.UTF8, jsonMediaType);
             restResponse = HttpClientHelper.PostRequest(postUrl, content, headers);
 
@@ -239,5 +243,47 @@ namespace WebServiceAutomation.PostEndPoints
             List<JsonRootObject> jsonData = ResponseDataHelper.DeserializeJSonResponse<List<JsonRootObject>>(restResponse.ResponseContent);
             Console.WriteLine(jsonDatastring.ToString());
         }
+
+        [TestMethod]
+        public void TestSecurePostEnd()
+        {
+            int id = random.Next(100);
+            string xmlData = "<Laptop>" +
+                                    "<BrandName>Alienware</BrandName>" +
+                                    "<Features>" +
+                                       "<Feature>8th Generation Intel® Core™ i5 - 8300H</Feature>" +
+                                       "<Feature>Windows 10 Home 64 - bit English</Feature>" +
+                                       "<Feature>NVIDIA® GeForce® GTX 1660 Ti 6GB GDDR6</Feature>" +
+                                       "<Feature>8GB, 2x4GB, DDR4, 2666MHz</Feature>" +
+                                     "</Features>" +
+                                  "<Id>" + id + "</Id>" +
+                                  "<LaptopName>Alienware M17</LaptopName>" +
+                               "</Laptop>";
+
+            string authHeader = Base64StringConvertor.GetBase64String("admin", "welcome");
+            
+            Dictionary<string, string> headers = new Dictionary<string, string>()
+            {
+                {"Accept",xmlMediaType },
+                {"Authorization","Basic "+authHeader }
+            };
+
+            restResponse = HttpClientHelper.PostRequest(securePostUrl, xmlData,xmlMediaType, headers);
+
+            Assert.AreEqual(200, restResponse.StatusCode);
+
+
+            restResponse = HttpClientHelper.GetRequest(secureGetUrl + id, headers);
+            Assert.AreEqual(200, restResponse.StatusCode);
+
+            Laptop xmlObj = ResponseDataHelper.DeserializeXmlResponse<Laptop>(restResponse.ResponseContent);
+
+            Assert.AreEqual("Alienware M17", xmlObj.LaptopName);
+            Assert.AreEqual(id.ToString(), xmlObj.Id);
+
+        }
+
     }
+
 }
+

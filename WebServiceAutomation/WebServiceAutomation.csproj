@@ -57,6 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\Base64StringConvertor.cs" />
+    <Compile Include="DeleteEndPoints\TestDeleteEndPoint.cs" />
     <Compile Include="GetEndPoints\TestGetEndPoints.cs" />
     <Compile Include="Helper\Request\HttpClientHelper.cs" />
     <Compile Include="Helper\Response Data\ResponseDataHelper.cs" />

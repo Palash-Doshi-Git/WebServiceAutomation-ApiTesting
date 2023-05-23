@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using WebServiceAutomation.Authentication;
 using WebServiceAutomation.Helper.Request;
 using WebServiceAutomation.Helper.Response_Data;
 using WebServiceAutomation.Model;
@@ -20,6 +21,9 @@ namespace WebServiceAutomation.GetEndPoints
     public class TestGetEndPoints
     {
         private readonly string getUrl = "http://localhost:8080/laptop-bag/webapi/api/all";
+        private readonly string secureGetUrl = "http://localhost:8080/laptop-bag/webapi/secure/all";
+
+
         [TestMethod]
         public void TestGetAllEndPoint()
         {
@@ -329,6 +333,21 @@ namespace WebServiceAutomation.GetEndPoints
 
         }
 
+        [TestMethod]
+        public void TestSecureGetEndPoint()
+        {
+            Dictionary<string, string> httpHeader = new Dictionary<string, string>();            
+            string authHeader = "Basic "+ Base64StringConvertor.GetBase64String("admin", "welcome");
+            httpHeader.Add("Authorization", authHeader);
+            RestResponse restResponse = HttpClientHelper.GetRequest(secureGetUrl, httpHeader);
+
+            Assert.AreEqual(200, restResponse.StatusCode);
+
+
+            /*List<JsonRootObject> jsonData = ResponseDataHelper.DeserializeJSonResponse<List<JsonRootObject>>(restResponse.ResponseContent);
+            Console.WriteLine(jsonData.ToString());*/
+
+        }
 
     }
 }

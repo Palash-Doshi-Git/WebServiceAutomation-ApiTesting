@@ -27,7 +27,7 @@ namespace WebServiceAutomation.Helper.Request
         {
             HttpRequestMessage requestMessage = new HttpRequestMessage(method, requestUrl);
 
-            if (!(method == HttpMethod.Get))
+            if (!(method == HttpMethod.Get) || (method==HttpMethod.Delete))
                 requestMessage.Content = content;
             return requestMessage;
         }
@@ -68,6 +68,23 @@ namespace WebServiceAutomation.Helper.Request
                 return PostRequest(requestUrl, httpContent, httpHeaders);
 
         }
+        public static RestResponse PutRequest(string requestUrl, string data, string mediatype, Dictionary<string, string> httpHeaders)
+        {
+            HttpContent httpContent = new StringContent(data, Encoding.UTF8, mediatype);
+            return SendRequest(requestUrl, HttpMethod.Put, httpContent, httpHeaders);
+
+        }
+        public static RestResponse PutRequest(string requestUrl, HttpContent content, Dictionary<string, string> httpHeaders)
+        {
+            return SendRequest(requestUrl, HttpMethod.Put, content, httpHeaders);
+        }
+
+        public static RestResponse DeleteRequest(string requestUrl, int id)
+        {
+            return SendRequest(requestUrl+id , HttpMethod.Delete,null,null);
+
+        }
+
     }
 }
 
