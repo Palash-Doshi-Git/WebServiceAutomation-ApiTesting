@@ -164,9 +164,11 @@ namespace WebServiceAutomation.GetEndPoints
         [TestMethod]
         public void TestGetAllEndPointUsingSendAsync() //SendAsync can add Header to url
         {
-            HttpRequestMessage requestMessage = new HttpRequestMessage();
-            requestMessage.RequestUri = new Uri(getUrl);
-            requestMessage.Method = HttpMethod.Get;
+            HttpRequestMessage requestMessage = new HttpRequestMessage
+            {
+                RequestUri = new Uri(getUrl),
+                Method = HttpMethod.Get
+            };
             requestMessage.Headers.Add("Accept", "application/json");
             HttpClient hClient = new HttpClient(); // Create HttpCLient
             Task<HttpResponseMessage> msg = hClient.SendAsync(requestMessage);
@@ -309,9 +311,9 @@ namespace WebServiceAutomation.GetEndPoints
                         // check responsedata is not null
                         Assert.IsNotNull(restResponse.ResponseContent);
                         // 3rd Assertion with Condition
-                        Assert.IsTrue(xmlData.Laptop.Features.Feature.Contains("8GB, 2x4GB, DDR4, 2666MHz"), "Item not found");
+                        Assert.IsTrue(xmlData.Laptop[0].Features.Feature.Contains("8GB, 2x4GB, DDR4, 2666MHz"), "Item not found");
                         // 4th Assert BrandName
-                        Assert.AreEqual("Alienware", xmlData.Laptop.BrandName);
+                        Assert.AreEqual("Alienware", xmlData.Laptop[0].BrandName);
 
                     }
                 }
