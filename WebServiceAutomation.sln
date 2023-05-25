@@ -5,11 +5,6 @@ VisualStudioVersion = 16.0.33529.622
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServiceAutomation", "WebServiceAutomation\WebServiceAutomation.csproj", "{0A3640FD-0993-43F6-8046-4AF7BA241DA7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0C9D29C8-5E9E-4EF5-82F5-2283FE48583D}"
-	ProjectSection(SolutionItems) = preProject
-		RestSharp.Automation\RestSharp.Automation.csproj = RestSharp.Automation\RestSharp.Automation.csproj
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
