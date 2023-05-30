@@ -198,6 +198,31 @@ namespace RestSharp.Automation.GetRequest
             }
         }
 
+        [TestMethod]
+        public void SendReqWithExecuteAPI()
+        {
+            RestClient client = new RestClient();
+            RestRequest getRequest = new RestRequest()
+            {
+                Method = Method.Get,
+                Resource = getUrl
+
+            };
+
+            var response = client.Execute<List<JsonRootObject>>(getRequest);
+
+            var content = response.Data;
+
+            var jsonObj = content.Find((item) =>
+            {
+                return 1 == item.Id;
+            });
+
+            jsonObj.BrandName.Should().NotBeNullOrEmpty();
+            jsonObj.Id.Should().Be(1);
+
+            jsonObj.Features.Feature.Should().Contain("8GB, 2x4GB, DDR4, 2666MHz");
+        }
 
 
     }

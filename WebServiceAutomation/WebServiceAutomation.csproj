@@ -99,10 +99,12 @@
     <Compile Include="Helper\Response Data\ResponseDataHelper.cs" />
     <Compile Include="Model\JsonModel\Features.cs" />
     <Compile Include="Model\JsonModel\JsonRootObject.cs" />
+    <Compile Include="Model\JsonModel\JsonRootObjectBuilder.cs" />
     <Compile Include="Model\RestResponse.cs" />
     <Compile Include="Model\XmlModel\Features.cs" />
     <Compile Include="Model\XmlModel\Laptop.cs" />
     <Compile Include="Model\XmlModel\LaptopDetails.cs" />
+    <Compile Include="Model\XmlModel\XmlModelBuilder.cs" />
     <Compile Include="PostEndPoints\TestPostEndPoints.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PutEndPoints\TestPutEndPoints.cs" />
