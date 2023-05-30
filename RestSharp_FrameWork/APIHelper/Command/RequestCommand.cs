@@ -1,7 +1,7 @@
 ﻿using RestSharp;
 using RestSharp_FrameWork.APIHelper.APIRequest;
 using RestSharp_FrameWork.APIHelper.ApiResponse;
-
+using System.Threading.Tasks;
 
 namespace RestSharp_FrameWork.APIHelper.Command
 {
@@ -29,6 +29,16 @@ namespace RestSharp_FrameWork.APIHelper.Command
             var request = _abstractRequest.Build();
             var response = client.Execute<T>(request);
             return new Response<T>(response);
+        }
+
+        public byte[] DownloadData()
+        {
+            throw new System.NotImplementedException("Use the DownloadRequestCommand.cs for File Download");
+        }
+
+        public Task<byte[]> DownloadDataAsync()
+        {
+            throw new System.NotImplementedException("Use the DownloadRequestCommand.cs for File Download");
         }
 
     }

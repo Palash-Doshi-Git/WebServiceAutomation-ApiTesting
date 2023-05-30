@@ -30,14 +30,15 @@ namespace RestSharp_FrameWork.GetEndPoints
         public static void Setup(TestContext testContext)
         {
             _client = new TracerClient();
-            authClient = new BasicAuthDecorator(_client);
+            authClient = new AuthDecorator(_client, new HttpBasicAuthenticator("admin", "welcome")); // USing Framework authDecorator class
+            // authClient = new BasicAuthDecorator(_client); Using BasicAuth CLass
             _executor = new RestApiExecutor();
         }
 
         [ClassCleanup]
         public static void TearDown()
         {
-            _client?.Dispose();
+            authClient?.Dispose();
         }
 
         [TestMethod]

@@ -1,5 +1,5 @@
 ﻿using RestSharp_FrameWork.APIHelper.APIRequest;
-using System;
+using System.Threading.Tasks;
 
 namespace RestSharp_FrameWork.APIHelper.RestAPIExecutor
 {
@@ -22,6 +22,15 @@ namespace RestSharp_FrameWork.APIHelper.RestAPIExecutor
             return Command.ExecuteRequest<T>();
         }
 
+        public byte[] DownloadData()
+        {
+            return Command.DownloadData();
+        }
+
+        public Task<byte[]> DownloadDataAsync()
+        {
+            return Command.DownloadDataAsync();
+        }
       
     }
 }

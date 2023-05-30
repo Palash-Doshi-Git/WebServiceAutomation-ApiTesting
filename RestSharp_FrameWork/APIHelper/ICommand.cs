@@ -10,6 +10,10 @@ namespace RestSharp_FrameWork.APIHelper.APIRequest
     {
         IResponse ExecuteRequest(); // for response in string format 
         IResponse<T> ExecuteRequest<T>(); // for reponse in object format
+        byte[] DownloadData();
+        Task<byte[]> DownloadDataAsync();
+
+
 
     }
 }
