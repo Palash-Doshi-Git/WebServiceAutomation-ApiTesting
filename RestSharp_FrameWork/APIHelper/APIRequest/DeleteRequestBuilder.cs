@@ -1,22 +1,17 @@
 ﻿using RestSharp;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RestSharp_FrameWork.APIHelper.APIRequest
 {
-    public class GetRequestBuilder : AbstractRequest
+    public class DeleteRequestBuilder : AbstractRequest
     {
-
         private readonly RestRequest _restRequest;
 
-        public GetRequestBuilder()
+        public DeleteRequestBuilder()
         {
             _restRequest = new RestRequest()
             {
-                Method = Method.Get
+                Method = Method.Delete
             };
         }
         public override RestRequest Build()
@@ -25,25 +20,29 @@ namespace RestSharp_FrameWork.APIHelper.APIRequest
         }
 
         //url
-        public GetRequestBuilder WithUrl(string url)
+        public DeleteRequestBuilder WithUrl(string url)
         {
             WithUrl(url, _restRequest);
             return this;
         }
 
         //Req Header
-        public GetRequestBuilder WithHeader(Dictionary<string, string> headers)
+        public DeleteRequestBuilder WithDefaultHeader()
         {
-            WithHeader(headers, _restRequest);
+            WithHeader(null, _restRequest);
             return this;
         }
 
+        protected override void WithHeader(Dictionary<string, string> header, RestRequest restRequest)
+        {
+            restRequest.AddOrUpdateHeader("Accept","text/plain");
+        }
+
         //QueryParameter
-        public GetRequestBuilder WithQueryParameters(Dictionary<string, string> param)
+        public DeleteRequestBuilder WithQueryParameters(Dictionary<string,string> param)
         {
             WithQueryParameters(param, _restRequest);
             return this;
         }
-
     }
 }

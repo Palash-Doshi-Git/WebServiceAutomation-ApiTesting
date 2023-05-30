@@ -1,19 +1,18 @@
 ﻿using RestSharp;
 using RestSharp.Serializers;
-using RestSharp_FrameWork.APIHelper;
 using System.Collections.Generic;
 
 namespace RestSharp_FrameWork.APIHelper.APIRequest
 {
-    public class PostRequestBuilder : AbstractRequest
+    public class PutRequestBuilder : AbstractRequest
     {
         private readonly RestRequest _restRequest;
 
-        public PostRequestBuilder()
+        public PutRequestBuilder()
         {
             _restRequest = new RestRequest()
             {
-                Method = Method.Post
+                Method = Method.Put
             };
         }
 
@@ -24,22 +23,36 @@ namespace RestSharp_FrameWork.APIHelper.APIRequest
 
         //URL
 
-        public PostRequestBuilder WithUrl(string url)
+        public PutRequestBuilder WithUrl(string url)
         {
             WithUrl(url, _restRequest);
             return this;
         }
 
         // Headers
-        public PostRequestBuilder WithHeaders(Dictionary<string, string> headers)
+        public PutRequestBuilder WithHeaders(Dictionary<string, string> headers)
         {
             WithHeader(headers, _restRequest);
             return this;
         }
 
+        //Query Parameter
+        public PutRequestBuilder WithQueryParameters(Dictionary<string, string> parameters)
+        {
+            WithQueryParameters(parameters, _restRequest);
+            return this;
+        }
+
+        protected override void WithQueryParameters(Dictionary<string, string> parameters, RestRequest restRequest)
+        {
+            foreach (string key in parameters.Keys)
+                restRequest.AddQueryParameter(key, parameters[key]);
+        }
+
+
         // Body
 
-        public PostRequestBuilder WithBody<T>(T body, RequestBodyType bodyType, string contentType = ContentType.Json) where T : class
+        public PutRequestBuilder WithBody<T>(T body, RequestBodyType bodyType, string contentType = ContentType.Json) where T : class
         {
             // String
             // Object 
@@ -59,25 +72,7 @@ namespace RestSharp_FrameWork.APIHelper.APIRequest
             return this;
         }
 
-        //Query Parameter
-        public PostRequestBuilder WithQueryParameters(Dictionary<string, string> parameters)
-        {
-            WithQueryParameters(parameters, _restRequest);
-            return this;
-        }
-
-        protected override void WithQueryParameters(Dictionary<string, string> parameters, RestRequest restRequest)
-        {
-            foreach (string key in parameters.Keys)
-                restRequest.AddQueryParameter(key, parameters[key]);
-        }
-
     }
 
-    public enum RequestBodyType
-    {
-        STRING, // For the String body
-        JSON, // Serialize the object in to JSON
-        XML // Serialize the object in to XML
-    }
 }
+

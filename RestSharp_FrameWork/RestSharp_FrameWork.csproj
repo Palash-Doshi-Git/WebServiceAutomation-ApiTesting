@@ -92,12 +92,24 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.4.2.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.core.2.4.2\lib\net452\xunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.execution.desktop, Version=2.4.2.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.execution.2.4.2\lib\net452\xunit.execution.desktop.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIHelper\AbstractRequest.cs" />
     <Compile Include="APIHelper\AbstractResponse.cs" />
+    <Compile Include="APIHelper\APIRequest\DeleteRequestBuilder.cs" />
     <Compile Include="APIHelper\APIRequest\GetRequestBuilder.cs" />
     <Compile Include="APIHelper\APIRequest\PostRequestBuilder.cs" />
+    <Compile Include="APIHelper\APIRequest\PutRequestBuilder.cs" />
+    <Compile Include="APIHelper\Client\BasicAuthDecorator.cs" />
     <Compile Include="APIHelper\Client\TracerClient.cs" />
     <Compile Include="APIHelper\ICommand.cs" />
     <Compile Include="APIHelper\ApiResponse\Response.cs" />
@@ -109,15 +121,22 @@
     <Compile Include="APIModel\JsonApiModel\Features.cs" />
     <Compile Include="APIModel\JsonApiModel\JsonModel.cs" />
     <Compile Include="APIModel\JsonApiModel\JsonModelBuilder.cs" />
+    <Compile Include="DeleteEndPoints\TestDeleteEndPoints.cs" />
+    <Compile Include="DeleteEndPoints\TestDeleteEndPointWithFrameWork.cs" />
     <Compile Include="GetEndPoints\GetEndPointsAPIHelper.cs" />
     <Compile Include="APIHelper\IClient.cs" />
     <Compile Include="GetEndPoints\TestGetEndPoints.cs" />
+    <Compile Include="GetEndPoints\TestGetSecureEndPoints.cs" />
     <Compile Include="GetEndPoints\TestGetWithFramework.cs" />
     <Compile Include="PostEndPoints\TestMockAbleIo.cs" />
     <Compile Include="PostEndPoints\TestPostEndPoints.cs" />
     <Compile Include="PostEndPoints\TestPostEndPointsTracerClient.cs" />
     <Compile Include="PostEndPoints\TestPostEndPointWithFramework.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PutEndPoints\TestPutEndPointscs.cs" />
+    <Compile Include="PutEndPoints\TestPutEndPointsWithFrameWork.cs" />
+    <Compile Include="QueryParameter\TestQueryParameter.cs" />
+    <Compile Include="QueryParameter\TestQueryParameterWithFramework.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
